@@ -1319,7 +1319,8 @@ void SurgeSynthesizer::releaseNote(char channel, char key, char velocity, int32_
              */
             for (auto k = 127; k >= 0; k--) // search downwards
             {
-                if (k != key && channelState[channel].keyState[k].keystate)
+                // keyIsDown not keystate: a note the pedal is holding is not an anchor (#6620)
+                if (k != key && channelState[channel].keyState[k].keyIsDown)
                 {
                     sceneNoHold =
                         true; // This effects a release of current key because another key is down
